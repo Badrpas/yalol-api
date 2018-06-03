@@ -15,7 +15,7 @@ const REGION_MAP = {
   la  : 'la1'
 };
 
-module.exports = (region, API_KEY) => {
+const initialize = (region, API_KEY) => {
   region = region.toLowerCase();
   region = REGION_MAP[region] || region;
 
@@ -64,4 +64,6 @@ module.exports = (region, API_KEY) => {
       }
     }
   };
-}
+};
+
+module.exports = _.memoize(initialize);
