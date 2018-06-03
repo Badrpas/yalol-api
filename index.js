@@ -1,7 +1,7 @@
+const _ = require('lodash');
 const axios = require('axios');
 const MAPPING = require('./mapping');
-const getUriEntry = require('./api-entry');
-const _ = require('lodash');
+const apiCraft = require('api-craft');
 
 
 const REGION_MAP = {
@@ -21,32 +21,18 @@ const initialize = (region, API_KEY) => {
 
   const baseURL = `https://${region}.api.riotgames.com`;
 
-  const API = {};
-
-  Object.keys(MAPPING).forEach(key => {
-    let path = MAPPING[key];
-    let queriesDescriptions;
-    
-    if (typeof path === 'array') {
-      path = path[0];
-      queriesDescriptions = path[1];
-    }
-    
-    const entry = getUriEntry(path, queriesDescriptions);
-    
-    API[key] = (...args) => {
-      const baseOptions = {
-        baseURL, 
-        method: 'get',
-        headers: { "X-Riot-Token": API_KEY }
-      };
-      const requestOptions = entry(...args);
-      const options = _.extend(baseOptions, requestOptions);
-      
-      return axios(options)
-              .then( ({ data }) => data );
+  const API = apiCraft(MAPPING, requestOptions => {
+    const baseOptions = {
+      baseURL, 
+      method: 'get',
+      headers: { "X-Riot-Token": API_KEY }
     };
+
+    const options = _.extend(baseOptions, requestOptions);
+
+    return axios(options).then( ({ data }) => data );
   });
+
 
   return {
     API,
@@ -64,6 +50,7 @@ const initialize = (region, API_KEY) => {
       }
     }
   };
+
 };
 
 module.exports = _.memoize(initialize);

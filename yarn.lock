@@ -2,6 +2,12 @@
 # yarn lockfile v1
 
 
+"api-craft@https://github.com/Badrpas/api-craft":
+  version "1.0.0"
+  resolved "https://github.com/Badrpas/api-craft#0a1ebd2327302b13bb01f972b42827d76f05c770"
+  dependencies:
+    lodash "^4.17.10"
+
 axios@^0.18.0:
   version "0.18.0"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.18.0.tgz#32d53e4851efdc0a11993b6cd000789d70c05102"
