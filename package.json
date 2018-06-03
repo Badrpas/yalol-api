@@ -1,0 +1,15 @@
+{
+  "name": "yalol-api",
+  "version": "1.0.0",
+  "description": "Yet another LoL API",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "node example.js",
+    "t": "npm run test"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "lodash": "^4.17.10"
+  }
+}
