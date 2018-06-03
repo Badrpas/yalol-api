@@ -1,3 +1,5 @@
+// Defines functions in API object
+
 module.exports = {
   getSummonerByName : '/lol/summoner/v3/summoners/by-name/{summonerName}',
   getSummoner       : '/lol/summoner/v3/summoners/by-name/{summonerName}',
