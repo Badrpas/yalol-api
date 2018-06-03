@@ -21,7 +21,7 @@ module.exports = (region, API_KEY) => {
 
   const baseURL = `https://${region}.api.riotgames.com`;
 
-  const api = {};
+  const API = {};
 
   Object.keys(MAPPING).forEach(key => {
     let path = MAPPING[key];
@@ -34,22 +34,27 @@ module.exports = (region, API_KEY) => {
     
     const entry = getUriEntry(path, queriesDescriptions);
     
-    api[key] = (...args) => 
-      axios(_.extend(entry(...args), {
+    API[key] = (...args) => {
+      const baseOptions = {
         baseURL, 
         method: 'get',
         headers: { "X-Riot-Token": API_KEY }
-      })).then(({data}) => data);
-  
+      };
+      const requestOptions = entry(...args);
+      const options = _.extend(baseOptions, requestOptions);
+      
+      return axios(options)
+              .then( ({ data }) => data );
+    };
   });
 
   return {
-    api,
+    API,
     
     async getCurrentGameByName (name) {
-      const { id } = await api.getSummoner(name);
+      const { id } = await API.getSummoner(name);
       try {
-        return await api.getCurrentGame(id);
+        return await API.getCurrentGame(id);
       } catch (e) {
         if (_.get(e, 'response.status') === 404) {
           throw new Error(`Summoner ${name} currently is not in game.` );
